@@ -22,7 +22,7 @@ export default function ResultPage() {
   }, [score, total, router]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-100 to-purple-200 p-6">
       <div className="bg-white shadow-xl rounded-2xl p-10 max-w-md w-full text-center">
         <h1 className="text-3xl font-bold mb-6">🎉 Quiz Completed!</h1>
         <div className="text-xl mb-4">
