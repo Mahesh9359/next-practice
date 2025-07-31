@@ -3,9 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AuthSessionProvider from "@/components/AuthSessionProvider";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import Providers from "@/components/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,38 +16,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuizWave - Play and Learn",
+  title: "QuizMaster - Play and Learn",
   description: "Test your knowledge with fun quizzes!",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <AuthSessionProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Providers>
           <Navbar />
           {children}
           <Footer />
-          <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              toastStyle={{ marginTop: "60px" }}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
-        </AuthSessionProvider>
+        </Providers>
       </body>
     </html>
   );

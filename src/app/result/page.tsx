@@ -15,7 +15,6 @@ export default function ResultPage() {
     const percent = Math.round((score / total) * 100);
     setPercentage(percent);
 
-    // Save to quiz history in localStorage
     const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
     history.push({ score: `${score}/${total}`, date: new Date().toISOString() });
     localStorage.setItem('quizHistory', JSON.stringify(history));

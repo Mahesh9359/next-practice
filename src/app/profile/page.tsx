@@ -5,16 +5,21 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import userAvatar from "public/icons/person.png";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const localUser = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    const isLocalLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (status === "unauthenticated" && !isLocalLoggedIn) {
       router.push("/login");
     }
-  }, [status]);
+  }, [status, router]);
 
   if (status === "loading") {
     return <div className="text-center mt-10">Loading...</div>;
@@ -33,8 +38,8 @@ export default function ProfilePage() {
           className="w-16 h-16 rounded-full"
         />
         <div>
-          <h2 className="text-xl font-semibold">{session?.user?.name}</h2>
-          <p className="text-gray-600">{session?.user?.email}</p>
+          <h2 className="text-xl font-semibold">{session?.user?.name || localUser?.name}</h2>
+          <p className="text-gray-600">{session?.user?.email || localUser?.email}</p>
         </div>
       </div>
 
