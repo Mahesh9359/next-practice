@@ -23,7 +23,7 @@ export default function ResultDetailsPage() {
     if (quiz) {
       setResult(quiz);
     } else {
-      router.push('/'); // fallback if result not found
+      router.push('/'); 
     }
   }, [id, router]);
 

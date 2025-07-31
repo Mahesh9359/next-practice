@@ -48,10 +48,14 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<{ [id: number]: string }>({});
   const router = useRouter();
-  const { data: session,status } = useSession();
+  const { data: session, status } = useSession();
+  const [isLocalUser, setIsLocalUser] = useState(false);
 
-    useEffect(() => {
-    if (status === "unauthenticated") {
+  useEffect(() => {
+    const localLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLocalUser(localLoggedIn);
+
+    if (!localLoggedIn && status === "unauthenticated") {
       router.push("/login");
     }
   }, [status]);
@@ -90,7 +94,7 @@ export default function QuizPage() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      {!session ? (
+      {!session && !isLocalUser ? (
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600">
             Please login before attempting the quiz.
