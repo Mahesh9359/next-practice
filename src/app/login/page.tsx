@@ -8,6 +8,8 @@ import googleIcon from "public/icons/google.png";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import loginIllustration from "public/icons/Privacy policy-rafiki.png";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/authSlice";
 
 type UserData = {
   name?: string;
@@ -21,6 +23,7 @@ export default function LoginPage() {
   const [storedUser, setStoredUser] = useState<UserData | null>(null);
   const { data: session } = useSession();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const data = localStorage.getItem("userData");
@@ -60,6 +63,7 @@ export default function LoginPage() {
       setError("");
       localStorage.setItem("isLoggedIn", "true");
       toast.success(`Welcome ${storedUser.name}`);
+      dispatch(login({ name: storedUser.name!, email: storedUser.email }));
       router.push("/");
     } else {
       toast.error("Invalid email or password.");

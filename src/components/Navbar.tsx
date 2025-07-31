@@ -2,40 +2,35 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const { data: session } = useSession();
-  const [isLocalLoggedIn, setIsLocalLoggedIn] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null)
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isLoggedIn = !!user || !!session;
 
-  useEffect(()=>{
-    const status = localStorage.getItem('isLoggedIn')==='true';
-    setIsLocalLoggedIn(status);
-  },[]);
-
-  useEffect(()=>{
-    const userData = localStorage.getItem("userData");
-    if(userData){
-      const parsedData = JSON.parse(userData);
-      setUserName(parsedData.name)
-    }
-  },[])
   const handleLogout = () => {
-        if (session) {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userData');
-            localStorage.removeItem('cartItems');
-            signOut({ callbackUrl: '/' });
-        } else {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userData');
-        }
-    };
-
-  const isLoggedIn = isLocalLoggedIn || !!session;
+    if (session) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userData");
+      localStorage.removeItem("cartItems");
+      signOut({ callbackUrl: "/" });
+    } else {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userData");
+      dispatch(logout());
+      toast.success("Logged Out Successfully");
+      router.push("/login")
+    }
+  };
 
   return (
     <nav className="bg-white flex justify-between items-center py-4 px-8 shadow-md sticky top-0 z-50">
@@ -107,15 +102,15 @@ export default function Navbar() {
 
         {isLoggedIn ? (
           <>
-          {session ?(
-            <span className="hidden md:block text-sm text-gray-600">
-              {session.user?.name}
-            </span>
-          ):(
-            <span className="hidden md:block text-sm text-gray-600">
-              {userName}
-            </span>
-          )}
+            {session ? (
+              <span className="hidden md:block text-sm text-gray-600">
+                {session.user?.name}
+              </span>
+            ) : (
+              <span className="hidden md:block text-sm text-gray-600">
+                {user?.name}
+              </span>
+            )}
             <button
               onClick={handleLogout}
               className="bg-purple-500 hover:bg-purple-600 text-white text-sm px-3 py-1 rounded"
