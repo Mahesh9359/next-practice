@@ -9,9 +9,23 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import loginIllustration from "public/icons/Privacy policy-rafiki.png";
 
+type UserData = {
+  name?: string;
+  email: string;
+  password: string;
+};
+
 export default function LoginPage() {
+  const [input, setInput] = useState<UserData>({ email: "", password: "" });
+  const [error, setError] = useState<string>("");
+  const [storedUser, setStoredUser] = useState<UserData | null>(null);
   const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    const data = localStorage.getItem("userData");
+    if (data) setStoredUser(JSON.parse(data));
+  }, []);
 
   useEffect(() => {
     if (session) {
@@ -20,8 +34,36 @@ export default function LoginPage() {
     }
   }, [session, router]);
 
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!input.email || !input.password) {
+      setError("All Fields are required");
+      return;
+    }
+
+    if (!storedUser) {
+      setError("No User Found. Please signup first.");
+      return;
+    }
+    if (
+      input.email === storedUser.email &&
+      input.password === storedUser.password
+    ) {
+      setError("");
+      localStorage.setItem("isLoggedIn", "true");
+      toast.success(`Welcome ${storedUser.name}`);
+      router.push("/");
+    } else {
+      toast.error("Invalid email or password.");
+    }
   };
 
   return (
@@ -32,8 +74,8 @@ export default function LoginPage() {
             src={loginIllustration}
             alt="Login illustration"
             className="w-3/4"
-            width={500} 
-            height={300} 
+            width={500}
+            height={300}
           />
         </div>
         <div className="p-8 md:p-12 space-y-6">
@@ -49,6 +91,9 @@ export default function LoginPage() {
               <label className="block text-sm font-medium">Email</label>
               <input
                 type="email"
+                name="email"
+                value={input.email}
+                onChange={handleInput}
                 required
                 className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
               />
@@ -58,10 +103,18 @@ export default function LoginPage() {
               <label className="block text-sm font-medium">Password</label>
               <input
                 type="password"
+                name="password"
+                value={input.password}
+                onChange={handleInput}
                 required
                 className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
               />
             </div>
+            {error && (
+              <p className="text-red-500 text-sm font-medium text-left pl-2">
+                {error}
+              </p>
+            )}
 
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center space-x-2">
