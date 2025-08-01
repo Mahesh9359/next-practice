@@ -1,16 +1,15 @@
 "use client";
 import Link from "next/link";
 import { BrainCircuit, Trophy, Timer, Users, User } from "lucide-react";
-import { title } from "process";
 
 export default function HomePage() {
   const categories = [
-    "General Knowledge",
+    "HTML",
     "JavaScript",
     "React",
     "CSS",
-    "Science",
-    "History",
+    "Next js",
+    "Tailwind css",
   ];
 
   const features = [
@@ -70,10 +69,7 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold text-center">Quiz Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {categories.map((category, index) => (
-            <Link
-              key={index}
-              href={`/quiz?category=${encodeURIComponent(category)}`}
-            >
+            <Link key={index} href={`/quiz/${encodeURIComponent(category.toLowerCase())}`}>
               <div className="bg-purple-50 hover:bg-purple-100 text-purple-700 p-6 rounded-xl shadow-sm cursor-pointer transition text-center font-medium">
                 {category}
               </div>
