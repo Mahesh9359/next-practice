@@ -21,11 +21,12 @@ export default function Navbar() {
     if (session) {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userData");
-      localStorage.removeItem("cartItems");
+      localStorage.removeItem("quizResults");
       signOut({ callbackUrl: "/" });
     } else {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userData");
+      localStorage.removeItem("quizResults");
       dispatch(logout());
       toast.success("Logged Out Successfully");
       router.push("/login")
@@ -53,17 +54,7 @@ export default function Navbar() {
         >
           Home
         </Link>
-        <Link
-          href="/quiz"
-          className={`text-sm font-medium ${
-            pathname === "/quiz"
-              ? "text-purple-600"
-              : "text-gray-700 hover:text-purple-600"
-          }`}
-        >
-          Quiz
-        </Link>
-
+        
         {isLoggedIn && (
           <>
             <Link
@@ -98,6 +89,17 @@ export default function Navbar() {
           }`}
         >
           About
+        </Link>
+
+        <Link
+          href="/leaderboard"
+          className={`text-sm font-medium ${
+            pathname === "/leaderboard"
+              ? "text-purple-600"
+              : "text-gray-700 hover:text-purple-600"
+          }`}
+        >
+          Leaderboard
         </Link>
 
         {isLoggedIn ? (
