@@ -81,7 +81,7 @@ export default function ProfilePage() {
                     key={result.id}
                     className="bg-white hover:bg-purple-50 transition p-5 rounded-xl shadow-sm border border-gray-100 text-sm"
                   >
-                    <p className="font-semibold text-purple-700">{result.title}</p>
+                    <p className="font-semibold text-purple-700">{decodeURIComponent(result.title)}</p>
                     <p className="text-gray-700">
                       Score: {result.score}/{result.total} ({result.percentage}%)
                     </p>
