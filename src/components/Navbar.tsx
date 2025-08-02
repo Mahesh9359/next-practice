@@ -29,7 +29,7 @@ export default function Navbar() {
       localStorage.removeItem("quizResults");
       dispatch(logout());
       toast.success("Logged Out Successfully");
-      router.push("/login")
+      router.push("/login");
     }
   };
 
@@ -54,19 +54,9 @@ export default function Navbar() {
         >
           Home
         </Link>
-        
+
         {isLoggedIn && (
           <>
-            <Link
-              href="/leaderboard"
-              className={`text-sm font-medium ${
-                pathname === "/leaderboard"
-                  ? "text-purple-600"
-                  : "text-gray-700 hover:text-purple-600"
-              }`}
-            >
-              Leaderboard
-            </Link>
             <Link
               href="/profile"
               className={`text-sm font-medium ${
@@ -101,7 +91,6 @@ export default function Navbar() {
         >
           Leaderboard
         </Link>
-
         {isLoggedIn ? (
           <>
             {session ? (
