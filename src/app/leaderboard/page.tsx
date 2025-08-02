@@ -21,7 +21,6 @@ export default function LeaderboardPage() {
   useEffect(() => {
     const isLocalLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-    // Redirect if not logged in via session or localStorage
     if (status === "unauthenticated" && !isLocalLoggedIn) {
       router.push("/login");
     }
@@ -37,12 +36,10 @@ export default function LeaderboardPage() {
     }
   }, [status, router]);
 
-  // Show loading until session status is resolved
   if (status === "loading") {
     return <div className="text-center mt-10 text-purple-600 font-semibold">Loading...</div>;
   }
 
-  // Group by quiz title and keep only the highest score per quiz
   const highestScores: { [title: string]: QuizResult } = {};
   results.forEach((result) => {
     const existing = highestScores[result.title];
@@ -73,7 +70,7 @@ export default function LeaderboardPage() {
                 className="bg-purple-50 hover:bg-purple-100 transition p-6 rounded-xl shadow-sm flex justify-between items-center"
               >
                 <div>
-                  <h2 className="text-xl font-semibold text-purple-700">{quiz.title}</h2>
+                  <h2 className="text-xl font-semibold text-purple-700">{decodeURIComponent(quiz.title).toUpperCase()}</h2>
                   <p className="text-gray-700">
                     Score: {quiz.score} / {quiz.total} ({quiz.percentage}%)
                   </p>
