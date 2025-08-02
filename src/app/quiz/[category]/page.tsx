@@ -25,7 +25,6 @@ export default function QuizPage() {
   const { data: session, status } = useSession();
   const [isLocalUser, setIsLocalUser] = useState(false);
 
-  // Check local login
   useEffect(() => {
     const localLogin = localStorage.getItem("isLoggedIn") === "true";
     setIsLocalUser(localLogin);
@@ -34,8 +33,7 @@ export default function QuizPage() {
       router.push("/login");
     }
   }, [status]);
-
-  // Fetch quiz questions
+  
   useEffect(() => {
     if (!category) return;
 
