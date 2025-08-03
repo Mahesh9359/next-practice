@@ -33,24 +33,28 @@ export default function ProfilePage() {
 
     const storedResults = localStorage.getItem("quizResults");
     if (storedResults) {
-      try {
-        const parsedResults = JSON.parse(storedResults);
-        setQuizResults(parsedResults);
-      } catch (error) {
-        console.error("Error parsing quiz results from localStorage:", error);
-      }
+      const parsedResults = JSON.parse(storedResults);
+      setQuizResults(parsedResults);
     }
   }, [status, router]);
 
   if (status === "loading") {
-    return <div className="text-center mt-10 text-purple-600 font-semibold">Loading...</div>;
+    return (
+      <div className="text-center mt-10 text-purple-600 font-semibold">
+        Loading...
+      </div>
+    );
   }
 
   return (
     <main className="min-h-screen bg-white text-gray-800 px-4 md:px-12 py-16 space-y-16">
       <section className="text-center space-y-6 max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-purple-600">👤 Profile</h1>
-        <p className="text-gray-600 text-lg">View your account details and quiz history</p>
+        <h1 className="text-4xl md:text-5xl font-bold text-purple-600">
+          👤 Profile
+        </h1>
+        <p className="text-gray-600 text-lg">
+          View your account details and quiz history
+        </p>
       </section>
 
       <section className="max-w-4xl mx-auto space-y-10">
@@ -66,24 +70,34 @@ export default function ProfilePage() {
             <h2 className="text-xl font-semibold text-purple-700">
               {session?.user?.name || localUser?.name}
             </h2>
-            <p className="text-gray-600">{session?.user?.email || localUser?.email}</p>
+            <p className="text-gray-600">
+              {session?.user?.email || localUser?.email}
+            </p>
           </div>
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold text-center mb-6 text-purple-600">📚 Quiz History</h2>
+          <h2 className="text-2xl font-bold text-center mb-6 text-purple-600">
+            📚 Quiz History
+          </h2>
           {quizResults.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {quizResults
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .sort(
+                  (a, b) =>
+                    new Date(b.date).getTime() - new Date(a.date).getTime()
+                )
                 .map((result) => (
                   <div
                     key={result.id}
                     className="bg-white hover:bg-purple-50 transition p-5 rounded-xl shadow-sm border border-gray-100 text-sm"
                   >
-                    <p className="font-semibold text-purple-700">{decodeURIComponent(result.title)}</p>
+                    <p className="font-semibold text-purple-700">
+                      {decodeURIComponent(result.title)}
+                    </p>
                     <p className="text-gray-700">
-                      Score: {result.score}/{result.total} ({result.percentage}%)
+                      Score: {result.score}/{result.total} ({result.percentage}
+                      %)
                     </p>
                     <p className="text-gray-500">
                       {new Date(result.date).toLocaleString("en-IN", {
