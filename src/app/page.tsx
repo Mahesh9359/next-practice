@@ -45,11 +45,9 @@ export default function HomePage() {
           Challenge your knowledge with fun, fast-paced quizzes. Compete, learn,
           and lead the board!
         </p>
-        <Link href="/quiz">
           <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-xl transition">
             Start Quiz
           </button>
-        </Link>
       </section>
       <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
         {features.map((feature) => (

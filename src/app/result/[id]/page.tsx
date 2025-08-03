@@ -32,7 +32,7 @@ export default function ResultDetailsPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-purple-100 p-6">
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-xl p-8 text-center">
-        <h1 className="text-2xl font-bold text-purple-700 mb-2">Quiz: {result.title}</h1>
+        <h1 className="text-2xl font-bold text-purple-700 mb-2">Quiz: {decodeURIComponent(result.title)}</h1>
         <p className="text-sm text-gray-500 mb-4">Completed on {new Date(result.date).toLocaleString()}</p>
 
         <p className="text-lg text-gray-700 mb-2">
